@@ -10,8 +10,8 @@
   mng = !git ls -m | xargs grep -L 'EASICS generated file'
 
 [user]
-  name = Steven Coenen
-  email = steven@easics.be
+  name = Karen Crabbe
+  email = karen@easics.be
 
 [merge "reggieDbMerge"]
   name = reggie db merge
