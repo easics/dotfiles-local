@@ -1,70 +1,153 @@
-" TABS ARE 8 SPACES, NO DISCUSSION POSSIBLE
-set tabstop=8
+" Easics config
+if filereadable($HOME . "/.vimrc.easics")
+  source ~/.vimrc.easics
+endif
 
 colorscheme murphy
 
-" Yes, I use hjkl only, but let's be nice for disabled people
-nunmap <Left>
-nunmap <Right>
-nunmap <Up>
-nunmap <Down>
+""" Set Options
+set autowrite   " Automatically save modifications when :n or :! commands
+set nobackup   " No backup before overwriting a file
+set backspace=2   " Backspace over the start of insert
+set background=dark   " Use dark background
+set nocompatible   " Not behaving like vi
+" List of file names to lookup words for keyword completion commands
+set dictionary=/usr/share/dict/words
+set noerrorbells   " No bell sound when an error occurs
+set esckeys   " Function keys starting with an <Esc> are known in Insert mode
+" Automatic formatting:
+" c = auto wrap comments on textwidth inserting comment leader,
+" q = allow gq for formatting comments,
+" r = <Enter> in Insert mode after writing comment inserts comment leader,
+" t = auto wrap text using textwidth
+set formatoptions=cqrt
+set helpheight=0   " Disable setting of minimal height of help window
+set hidden   " Hides the current buffer when it is unloaded from a window
+set nohlsearch   " No highlight of all matches of most recent search pattern
+set noicon   " Otherwise vim would change the name of the window icon
+set noignorecase   " Does not disregard case during a search
+set smartcase   " Overrides ignorecase when search pattern has uppercase
+set noinsertmode   " Normal mode as default mode
+set iskeyword=@,48-57,_,192-255,@-@   " Characters to use in keywords
+set joinspaces   " Insert 2 spaces after .,?! with a join command
+set laststatus=2   " Last window will always have a status line
+set lazyredraw   " Screen is not redrawn while executing macros etc
+set magic   " Wildcard characters .*[] have special meaning in patterns
+set nomodeline   " When set: interpret lines in the text file for vim
+set nonumber   " Line numbers not displayed
+set report=1   " Display message on the status line when editing >=1 lines
+set ruler   " Shows line and column number of the cursor position
+let shell='bash'
+set shiftwidth=2   " Number of spaces for autoindent, << and >>
+" Short messages for:
+" a: filenumber, no end of line, number of lines & characters, modified, new
+"    file, readonly, written, unix format
+" t: truncate file messages if too long to fit command-line ('<' at left)
+set shortmess=at
+set showcmd   " Show command in last line of the screen
+set showmatch   " When typing ) or }, matching ( or { is highlighted
+set showmode   " Message in status line for insert, replace and visual mode
+"suffixes: order for filename completion (when multiple files match pattern)
+set suffixes=.aux,.bak,.dvi,.gz,.idx,.log,.ps,.swp,.tar
+set nostartofline " ctrl-D ctrl-U etc should not go to start of line
+set tabstop=8   " A tab indents 8 spaces when editing
+set textwidth=80   " Maximum text width, longer line will be broken after space
+set title   " Set window title to: filename, - not modifiable, + changed, = ro
+set ttyfast   " Improves smoothness of redrawing
+set ttyscroll=0   " Window is redrawn after scrolling more lines than this
+set viminfo='50,\"100,:100,h   " Info to save  after closing and reopening file
+set visualbell   " Use visual bell instead of beeping
+set t_vb=   " No beep or flash
+set whichwrap=<,>,h,l   " Keys to move cursor left/right to previous/next line
+set wildchar=<TAB>   " Character to start wildcard expansion in command line
+set nowildmenu   " Command line completion does not show possible matches
+set completeopt=menu,menuone   " Show popup menu to show possible completions
+set wrapmargin=1   " Defines right margin, breaks lines when typing, starts wrap
+set nowritebackup   " No backup written before overwriting a file
+set colorcolumn=81   " Highlighted screen column
+set pdev=grijs   " Name of printer to be used for :hardcopy
+set t_Co=256   " Number of colors
+set expandtab   " When inserting a tab, expand it to the number of spaces
+set list   " Print tabs and trailing spaces
+set listchars=tab:»·,trail:·   " Strings to use for tabs and trailing spaces
+set incsearch   " Incremental searching
+set winwidth=80   " Minimum width of active window
+set virtualedit=block   " Allow visual mode to go where no text has gone before
+set scrolloff=2   " Minimal number of screen lines above and below cursur is 2
+set cinkeys=0{,0},:,0#,!^F,o,O,e,!<Tab>   " When cindent: type these to reindent
+set timeout   " Keyboard maps timeout after 1 second
+set timeoutlen=1000   " Wait x ms for a mapped key sequence to complete
+set ttimeoutlen=100   " Wait x ms for a key code to complete
+set pumheight=15   " Set maximum height for popup menu
+set path=$DESIGN_WORK_DIR/**   " List of directories to search for go file
+" Completion mode for wildchar (tab): longest match, list all, complete next
+set wildmode=longest,list,full
+set ef=/tmp/.errors.vim   " Name of errorfile for QuickFix mode
+" Show git branch when in git repository
+set statusline=%<%{RelPath()}\ (%n)%h%m%r%{fugitive#statusline()}\ %=%-14.(%l,%c%V%)\ %P
 
-set smartcase " case sensitive if a capital is used
-set showmatch " briefly jump to matching bracket
+""" Mappings
+"" All modes
+" Get more info of ctrl-G
+noremap <C-G> 2<C-G>
 
-cnoremap <C-A> <Home>
-cnoremap <C-E> <End>
+"" Normal mode
+" Move current line one line down
+nnoremap - ddp
+" Move current line one line up
+nnoremap _ ddkP
+" Change word of cursor to uppercase
+nnoremap <Leader>U gUiw
+" Edit my .vimrc in a splitted window
+nnoremap <Leader>ev :vsplit $MYVIMRC<cr>
+" Source my .vimrc
+nnoremap <Leader>sv :source $MYVIMRC<cr>
+" Put " " around current word
+nnoremap <Leader>" viw<esc>a"<esc>bi"<esc>lel
+" Grep for word under cursor
+"nnoremap <leader>g :silent execute "grep! -R " . shellescape(expand("<cWORD>")) . " ."<cr>:copen<cr>
 
-augroup FileTypeC
-  autocmd FileType c setlocal cindent
-  autocmd FileType c setlocal cino=f0,{1s,N-2s,(0,>2s,n-s,^-s,e-s
-augroup end
+"" Insert mode
+" Change word before cursor to uppercase
+inoremap <c-u> <esc><c-v>iwUea
+" Indent current line (to be replaced with the plugin)
+inoremap <Tab> <c-o>==
 
-nmap <F1> :bp<CR>
-nmap <F2> :bn<CR>
-nmap <F3> :b#<CR>
-nmap <F4> :lcd %:p:h<CR>
-nmap <S-F1> :tabp<CR>
-nmap <S-F2> :tabn<CR>
-nmap <S-F4> :retab<CR>g/./s/ \+$//<CR>
-nmap <S-F5> syntax sync fromstart
-" Show highlight group of cursor position
-nmap <S-F8> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
-\ . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"
-\ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
-" Run ctags
-map <C-F12> :!ctags -R --c++-kinds=+p --fields=+iaS --extra=+q
-      \ --languages=c,c++,verilog,vhdl,python,ruby .<CR>
+"" Visual mode
+" Wrap visually selected text in quotes
+vnoremap <Leader>" <esc>`<i"<esc>`>la"<esc>
 
-" Allow visual mode to go where no text has gone before
-set virtualedit=block
-set scrolloff=2
 
-" let hjkl work in insertmode (with CTRL)
-imap <C-J> <down>
-imap <C-K> <up>
-imap <C-L> <right>
-imap <C-E> <end>
+""" Abbreviations
+"" Insert mode abbreviations
+iabbrev 3include #include
+iabbrev unsigend unsigned
+iabbrev permisison permission
+iabbrev retrun return
 
-" Diff both windows
-nnoremap <Leader>d2 :diffthis<cr><c-w><c-w>:diffthis<cr>
-" Remove diff
-nnoremap <Leader>r2 :diffoff!<cr>
-
-autocmd FileType cpp set suffixesadd=.h,.C,.cpp,.cc,.hh,.hpp,.c
-au BufRead,BufNewFile *.ari setlocal suffixesadd=_ent.vhd,_rtl.vhd,.vhd
-
-" Common typos
+"" Command mode: common typos
 cabbrev E e
 cabbrev W w
 cabbrev Wa wa
 cabbrev Set set
 cabbrev Qa qa
 cabbrev Wqa wqa
-cabbrev B b
 
-iabbrev 3include #include
-iabbrev unsigend unsigned
+
+" Yes, I use hjkl only, but you can be nice for disabled people
+"nunmap <Left>
+"nunmap <Right>
+"nunmap <Up>
+"nunmap <Down>
+
+
+" Show highlight group of cursor position (nice to make syntax vim files)
+nmap <S-F8> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
+\ . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"
+\ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
+" Run ctags: to create tag jumping refs, jump with ctrl ]
+map <C-F12> :!ctags -R --c++-kinds=+p --fields=+iaS --extra=+q
+      \ --languages=c,c++,verilog,vhdl,python,ruby .<CR>
 
 set diffopt+=iwhite
 

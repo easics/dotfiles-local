@@ -1,3 +1,8 @@
+" Easics config
+if filereadable($HOME . "/.vimrc.bundles.easics")
+  source ~/.vimrc.bundles.easics
+endif
+
 
 " Only select specific Plugs from the general dotfiles
 
@@ -33,6 +38,8 @@ if g:has_async
   " Plug 'dense-analysis/ale'     " Asynchronous Linter Engine
 endif
 
+" Easics plugins: keeping all
+
 " My own additions
 " Number library
 Plug 'glts/vim-magnum'
@@ -42,3 +49,7 @@ Plug 'glts/vim-radical'
 Plug 'junegunn/vim-easy-align'
 xmap ga <Plug>(EasyAlign)
 nmap ga <Plug>(EasyAlign)
+
+
+" TODO: test & add to gitlab
+" vigasi
