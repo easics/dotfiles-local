@@ -1,26 +1,9 @@
-[init]
-  defaultBranch = master
-
-[alias]
-  stu = status -uno
-  ls = ls-files
-  br = branch
-  tree = log --graph --decorate --pretty=oneline --abbrev-commit --color=auto
-        ; Modified Not Generated
-  mng = !git ls -m | xargs grep -L 'EASICS generated file'
+[include]
+  path = ~/.gitconfig.easics
 
 [user]
   name = Karen Crabbe
   email = karen@easics.be
-
-[merge "reggieDbMerge"]
-  name = reggie db merge
-  driver = $REGGIE_HOME/ruby/mergeReggieDb.rb %O %A %B %L %P
-
-[merge]
-  conflictstyle = diff3
-  tool = gvimdiff
-  ff = true
 
 [push]
   recurseSubmodules = check

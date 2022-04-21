@@ -1,42 +1,20 @@
-" Easics config
-if filereadable($HOME . "/.vimrc.bundles.easics")
-  source ~/.vimrc.bundles.easics
-endif
-
-
 " Only select specific Plugs from the general dotfiles
 
-" junegunn/fzf.vim  Fuzzy Finder
-" Elixir function language
-UnPlug 'vim-elixir'
-" GO language
-UnPlug 'vim-go'
-" Test framework
-UnPlug 'vim-test'
-" 'pangloss/vim-javascript' better syntax highlighting and indentation
-" 'pbrisbin/vim-mkdir' auto create non-exisiting dirs
-" Slim template engine for Ruby
-UnPlug 'vim-slim'
-" Plug 'tpope/vim-bundler'        " Vim goodies for Bundler
-" Auto add closing keyword
-UnPlug 'vim-endwise'
-" Plug 'tpope/vim-eunuch'         " Sugar for UNIX shell commands
-" Plug 'tpope/vim-fugitive'       " Git
-" Something with project templates
-UnPlug 'vim-projectionist'
-" Plug 'tpope/vim-rails'          " Ruby on rails
-" Rake support
-UnPlug 'vim-rake'
-" Plug 'tpope/vim-repeat'         " Better working . after a plugin command
-" Github integration
-UnPlug 'vim-rhubarb'
-" Plug 'tpope/vim-surround'       " Surround text with stuff
-" Plug 'vim-ruby/vim-ruby'        " Better ruby support
-" Plug 'vim-scripts/tComment'     " Comments in code
+"Plug 'junegunn/fzf.vim'   " Fuzzy Finder
+"Plug 'pangloss/vim-javascript'   " better syntax highlighting and indentation
+"Plug 'pbrisbin/vim-mkdir'   " auto create non-exisiting dirs
+"Plug 'tpope/vim-bundler'   " Vim goodies for Bundler
+"UnPlug 'tpope/vim-endwise'   " Auto add closing keyword
+"Plug 'tpope/vim-eunuch'   " Sugar for UNIX shell commands
+"Plug 'tpope/vim-fugitive'   " Git
+"Plug 'tpope/vim-rails'   " Ruby on rails
+"UnPlug 'tpope/vim-rake'   " Rake support
+"Plug 'tpope/vim-repeat'   " Better working . after a plugin command
+"UnPlug 'tpope/vim-rhubarb'   " Github integration
+"Plug 'tpope/vim-surround'   " Surround text with stuff
+"Plug 'vim-ruby/vim-ruby'   " Better ruby support
+"Plug 'vim-scripts/tComment'   " Comments in code
 
-if g:has_async
-  " Plug 'dense-analysis/ale'     " Asynchronous Linter Engine
-endif
 
 " Easics plugins: keeping all
 
