@@ -1,9 +1,9 @@
-[include]
-  path = ~/.gitconfig.easics
-
 [user]
   name = Karen Crabbe
   email = karen@easics.be
 
 [push]
   recurseSubmodules = check
+
+[core]
+  excludesfile = ~/.gitignore.local

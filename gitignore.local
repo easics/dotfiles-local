@@ -1,0 +1,13 @@
+*.sw[lmnop]
+.bundle
+.env
+.git/
+/tmp
+tmp
+/tags
+cmaMakefile.*
+msMakefile.*
+wlf*
+__pycache__/*
+transcript
+*.vstf
