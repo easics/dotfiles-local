@@ -226,6 +226,12 @@ augroup FileTypeC
   autocmd FileType c setlocal cino=f0,{1s,N-2s,(0,>2s,n-s,^-s,e-s
 augroup end
 
+augroup FileTypeCpp
+  autocmd FileType cpp setlocal cindent
+  autocmd FileType cpp setlocal cino=f0,{1s,N-2s,(0,>2s,n-s,^-s,e-s
+  autocmd FileType cpp nmap <F7> :call AddMagic()<CR>
+augroup end
+
 autocmd FileType cpp set suffixesadd=.h,.C,.cpp,.cc,.hh,.hpp,.c
 au BufRead,BufNewFile *.ari setlocal suffixesadd=_ent.vhd,_rtl.vhd,.vhd
 
@@ -370,3 +376,5 @@ hi PmenuSel ctermbg=1
 hi PmenuSbar ctermbg=4
 " Color column colors
 highlight ColorColumn ctermbg=235 guibg=#2c2d27
+
+set statusline=%<%{RelPath()}\ (%n)%h%m%r%{fugitive#statusline()}\ %=%-14.(%l,%c%V%)\ %P
