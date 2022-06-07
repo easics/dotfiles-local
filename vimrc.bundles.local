@@ -28,6 +28,11 @@ Plug 'junegunn/vim-easy-align'
 xmap ga <Plug>(EasyAlign)
 nmap ga <Plug>(EasyAlign)
 
+" Snippets
+Plug 'SirVer/ultisnips'
+Plug 'honza/vim-snippets'
+
+Plug 'git@gitlab:dotfiles/bundles/addmagic.git'
 
 " TODO: test & add to gitlab
 " vigasi
