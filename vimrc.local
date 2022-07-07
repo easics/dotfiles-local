@@ -127,7 +127,7 @@ cabbrev Wa wa
 cabbrev Set set
 cabbrev Qa qa
 cabbrev Wqa wqa
-
+cabbrev B b
 
 " Yes, I use hjkl only, but you can be nice for disabled people
 "nunmap <Left>
