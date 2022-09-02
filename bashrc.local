@@ -8,3 +8,7 @@ cdtools() {
 cdproject() {
   cd ~/src/git/$1/$2
 }
+
+cgr() {
+  cd $(git root)
+}
