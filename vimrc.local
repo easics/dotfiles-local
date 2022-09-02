@@ -2,6 +2,7 @@ colorscheme murphy
 
 """" Set Options
 let mapleader = '\'
+set noautoread
 "set autowrite   " Automatically save modifications when :n or :! commands
 "set nobackup   " No backup before overwriting a file
 "set backspace=2   " Backspace over the start of insert
@@ -22,6 +23,7 @@ set hidden   " Hides the current buffer when it is unloaded from a window
 "set nohlsearch   " No highlight of all matches of most recent search pattern
 "set noicon   " Otherwise vim would change the name of the window icon
 "set noignorecase   " Does not disregard case during a search
+set ignorecase
 set smartcase   " Overrides ignorecase when search pattern has uppercase
 "set noinsertmode   " Normal mode as default mode
 "set iskeyword=@,48-57,_,192-255,@-@   " Characters to use in keywords
@@ -376,6 +378,8 @@ hi PmenuSel ctermbg=1
 hi PmenuSbar ctermbg=4
 " Color column colors
 highlight ColorColumn ctermbg=235 guibg=#2c2d27
+highlight DiagnosticError guifg=bisque1
+highlight Pmenu guibg=darkgoldenrod
 
 set statusline=%<%{RelPath()}\ (%n)%h%m%r%{fugitive#statusline()}\ %=%-14.(%l,%c%V%)\ %P
 
