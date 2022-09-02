@@ -8,6 +8,9 @@ tmp
 cmaMakefile.*
 msMakefile.*
 wlf*
-__pycache__/*
+__pycache__
 transcript
 *.vstf
+compile_flags.txt
+allwaves.do
+objects
