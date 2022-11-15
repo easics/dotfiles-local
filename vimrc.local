@@ -82,6 +82,7 @@ set scrolloff=2   " Minimal number of screen lines above and below cursur is 2
 "set wildmode=longest,list,full
 "set ef=/tmp/.errors.vim   " Name of errorfile for QuickFix mode
 set swapfile    " http://robots.thoughtbot.com/post/18739402579/global-gitignore#comment-458413287
+let g:tcommentOptions = {'col':1}   " Comment with gc at start of line
 
 """ Mappings
 "" All modes
