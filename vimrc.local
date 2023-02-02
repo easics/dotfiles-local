@@ -1,389 +1,48 @@
-colorscheme murphy
+" Get the defaults that most users want.
+source $VIMRUNTIME/defaults.vim
 
-"""" Set Options
-let mapleader = '\'
-set noautoread
-"set autowrite   " Automatically save modifications when :n or :! commands
-"set nobackup   " No backup before overwriting a file
-"set backspace=2   " Backspace over the start of insert
-"set background=dark   " Use dark background
-"set nocompatible   " Not behaving like vi
-"" List of file names to lookup words for keyword completion commands
-"set dictionary=/usr/share/dict/words
-"set noerrorbells   " No bell sound when an error occurs
-"set esckeys   " Function keys starting with an <Esc> are known in Insert mode
-"" Automatic formatting:
-"" c = auto wrap comments on textwidth inserting comment leader,
-"" q = allow gq for formatting comments,
-"" r = <Enter> in Insert mode after writing comment inserts comment leader,
-"" t = auto wrap text using textwidth
-"set formatoptions=cqrt
-"set helpheight=0   " Disable setting of minimal height of help window
-set hidden   " Hides the current buffer when it is unloaded from a window
-"set nohlsearch   " No highlight of all matches of most recent search pattern
-"set noicon   " Otherwise vim would change the name of the window icon
-"set noignorecase   " Does not disregard case during a search
+"Visuals
+set background=dark
+colorscheme desert
+highlight Folded cterm=bold ctermfg=2
+"set colorcolumn=81 "Highlight margin
+"highlight ColorColumn ctermbg=7
+set hlsearch
+filetype on "for syntax highlighting based on filetype
+
+"Behaviour
 set ignorecase
-set smartcase   " Overrides ignorecase when search pattern has uppercase
-"set noinsertmode   " Normal mode as default mode
-"set iskeyword=@,48-57,_,192-255,@-@   " Characters to use in keywords
-"set joinspaces   " Insert 2 spaces after .,?! with a join command
-"set laststatus=2   " Last window will always have a status line
-"set lazyredraw   " Screen is not redrawn while executing macros etc
-"set magic   " Wildcard characters .*[] have special meaning in patterns
-"set nomodeline   " When set: interpret lines in the text file for vim
-set nonumber   " Line numbers not displayed
-"set report=1   " Display message on the status line when editing >=1 lines
-"set ruler   " Shows line and column number of the cursor position
-"let shell='bash'
-"set shiftwidth=2   " Number of spaces for autoindent, << and >>
-"" Short messages for:
-"" a: filenumber, no end of line, number of lines & characters, modified, new
-""    file, readonly, written, unix format
-"" t: truncate file messages if too long to fit command-line ('<' at left)
-"set shortmess=at
-"set showcmd   " Show command in last line of the screen
-set showmatch   " When typing ) or }, matching ( or { is highlighted
-"set showmode   " Message in status line for insert, replace and visual mode
-""suffixes: order for filename completion (when multiple files match pattern)
-"set suffixes=.aux,.bak,.dvi,.gz,.idx,.log,.ps,.swp,.tar
-"set nostartofline " ctrl-D ctrl-U etc should not go to start of line
-"set tabstop=8   " A tab indents 8 spaces when editing
-"set textwidth=80   " Maximum text width, longer line will be broken after space
-"set title   " Set window title to: filename, - not modifiable, + changed, = ro
-"set ttyfast   " Improves smoothness of redrawing
-"set ttyscroll=0   " Window is redrawn after scrolling more lines than this
-"set viminfo='50,\"100,:100,h   " Info to save  after closing and reopening file
-"set visualbell   " Use visual bell instead of beeping
-"set t_vb=   " No beep or flash
-set whichwrap=<,>,h,l   " Keys to move cursor left/right to previous/next line
-"set wildchar=<TAB>   " Character to start wildcard expansion in command line
-"set nowildmenu   " Command line completion does not show possible matches
-"set completeopt=menu,menuone   " Show popup menu to show possible completions
-"set wrapmargin=1   " Defines right margin, breaks lines when typing, starts wrap
-"set nowritebackup   " No backup written before overwriting a file
-"set colorcolumn=81   " Highlighted screen column
-"set pdev=grijs   " Name of printer to be used for :hardcopy
-"set t_Co=256   " Number of colors
-"set expandtab   " When inserting a tab, expand it to the number of spaces
-"set list   " Print tabs and trailing spaces
-"set listchars=tab:»·,trail:·   " Strings to use for tabs and trailing spaces
-"set incsearch   " Incremental searching
-"set winwidth=80   " Minimum width of active window
-set virtualedit=block   " Allow visual mode to go where no text has gone before
-set scrolloff=2   " Minimal number of screen lines above and below cursur is 2
-"set cinkeys=0{,0},:,0#,!^F,o,O,e,!<Tab>   " When cindent: type these to reindent
-"set timeout   " Keyboard maps timeout after 1 second
-"set timeoutlen=1000   " Wait x ms for a mapped key sequence to complete
-"set ttimeoutlen=100   " Wait x ms for a key code to complete
-"set pumheight=15   " Set maximum height for popup menu
-"set path=$DESIGN_WORK_DIR/**   " List of directories to search for go file
-"" Completion mode for wildchar (tab): longest match, list all, complete next
-"set wildmode=longest,list,full
-"set ef=/tmp/.errors.vim   " Name of errorfile for QuickFix mode
-set swapfile    " http://robots.thoughtbot.com/post/18739402579/global-gitignore#comment-458413287
-let g:tcommentOptions = {'col':1}   " Comment with gc at start of line
+set smartcase
+set number
+set wildmode=longest,list,full
+set virtualedit=block
+set autoread " Autoload file changes. You can undo by pressing u.
 
-""" Mappings
-"" All modes
-" Get more info of ctrl-G
-noremap <C-G> 2<C-G>
+"Indentation
+set expandtab "convert tabs to spaces
+set tabstop=4 "4 spaces for a tab
+set shiftwidth=2 "indent 2 spaces
 
-"" Normal mode
-" Move current line one line down
-nnoremap - ddp
-" Move current line one line up
-nnoremap _ ddkP
-" Change word of cursor to uppercase
-nnoremap <Leader>U gUiw
-" Edit my .vimrc in a splitted window
-nnoremap <Leader>ev :vsplit $MYVIMRC<cr>
-" Source my .vimrc
-nnoremap <Leader>sv :source $MYVIMRC<cr>
-" Put " " around current word
-nnoremap <Leader>" viw<esc>a"<esc>bi"<esc>lel
-" Grep for word under cursor
-"nnoremap <leader>g :silent execute "grep! -R " . shellescape(expand("<cWORD>")) . " ."<cr>:copen<cr>
+"Show tabs and trailing spaces
+set list
+set listchars=tab:>»,trail:·
 
-"" Insert mode
-" Change word before cursor to uppercase
-inoremap <c-u> <esc><c-v>iwUea
-" Indent current line (to be replaced with the plugin)
-inoremap <Tab> <c-o>==
-
-"" Visual mode
-" Wrap visually selected text in quotes
-vnoremap <Leader>" <esc>`<i"<esc>`>la"<esc>
-
-
-""" Abbreviations
-"" Insert mode abbreviations
-iabbrev 3include #include
-iabbrev unsigend unsigned
-iabbrev permisison permission
-iabbrev retrun return
-
-"" Command mode: common typos
-cabbrev E e
-cabbrev W w
-cabbrev Wa wa
-cabbrev Set set
-cabbrev Qa qa
-cabbrev Wqa wqa
-cabbrev B b
-
-" Yes, I use hjkl only, but you can be nice for disabled people
-"nunmap <Left>
-"nunmap <Right>
-"nunmap <Up>
-"nunmap <Down>
-
-
-" Show highlight group of cursor position (nice to make syntax vim files)
-nmap <S-F8> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
-\ . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"
-\ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
-" Run ctags: to create tag jumping refs, jump with ctrl ]
-map <C-F12> :!ctags -R --c++-kinds=+p --fields=+iaS --extra=+q
-      \ --languages=c,c++,verilog,vhdl,python,ruby .<CR>
-
-set diffopt+=iwhite
-
-"Don't mark underscore in tex as error, we are using the underscore
-"package
-autocmd FileType tex hi link texOnlyMath Normal
-
-
-
-" TODO: check if still necessary
-""" Autocommands
-"" Filetype settings for autocommands
-filetype on
 filetype indent on
-filetype plugin on
+set autoindent
+"set smartindent "requires autoindent
 
-"" When opening a buffer
-augroup opening_buffer
-  autocmd!
-  " Jump to last known cursor position when reopening
-  au BufReadPost * if line("'\"") | exe "normal '\"" | endif
-augroup end
+"Mappings
+nnoremap <F5> :lcd %:p:h <CR>
+nnoremap <C-l> :nohlsearch <CR> <C-l>
+nnoremap <F8> :TagbarToggle<CR>
 
-"" Setting the filetype
-augroup setting_filetype
-  autocmd!
-  au BufRead,BufNewFile *.C setfiletype cpp
-  au BufRead,BufNewFile *.cpp setfiletype cpp
-  au BufRead,BufNewFile *.cc setfiletype cpp
-  au BufRead,BufNewFile *.ari setfiletype ari
-  au BufRead,BufNewFile *.psl setfiletype psl
-  au BufRead,BufNewFile *.pslm setfiletype pslm
-  au BufRead,BufNewFile *.pslt setfiletype pslt
-  au BufRead,BufNewFile *.vci setfiletype vci
-  au BufRead,BufNewFile *.vh setfiletype verilog
-  au BufRead,BufNewFile *.vhdx setfiletype vhdl
-  au BufRead,BufNewFile *.adoc setfiletype asciidoc
-  au BufRead,BufNewFile *.vhd setlocal suffixesadd=_ent.vhd,_rtl.vhd,.vhd
-  au BufRead,BufNewFile *.ari setlocal suffixesadd=_ent.vhd,_rtl.vhd,.vhd
-augroup end
+"Prepend path to directory of current file
+"after entering ':e .', ':vs .', ':sp .' or ':tabnew .'
+cnoremap <expr> . ExpandCurrentDir()
 
-"" For vhdl file
-augroup vhdl_files
-  autocmd!
-  " Comment out current line
-  autocmd FileType vhdl nnoremap <LocalLeader>c 0i--<esc>
-  " Set format of error message
-  autocmd FileType vhdl setlocal errorformat=**\ %trror:\ %f(%l):\ %m,**\ %tarning\[%*[0-9]\]:\ %m
-  " Jump up one level of vhdl
-  autocmd FileType vhdl nnoremap <C-Up> :call JumpUpOneLevelVhdl()<CR>
-  " Folding is specified with markers
-  autocmd FileType vhdl set foldmethod=marker
-  " Fold start and end markers
-  autocmd FileType vhdl setlocal foldmarker=--**,--*
-augroup end
-
-"" For verilog file
-augroup verilog_files
-  autocmd!
-  " Indentation according to smart indenting rules
-  autocmd FileType verilog    setlocal smartindent
-  " Use a shift width of 2
-  autocmd FileType verilog    setlocal sw=2
-  " Comment out current line
-  autocmd FileType verilog nnoremap <LocalLeader>c 0i//<esc>
-  " Folding is specified with markers
-  autocmd FileType verilog set foldmethod=marker
-  " Fold start and end markers
-  autocmd FileType verilog setlocal foldmarker=//**,//*
-augroup end
-" Set cindent options:
-" first opening brace on 0, opening { at 1 shift,
-" align with opened ( with no indent, normal indent is 2 shifts, 1 shift less
-" when no { in if etc, 1 shift less when inside { that started at 0,
-" when brace at end of line 1 shift less
-autocmd FileType verilog    setlocal cino=f0,{1s,(0,>2s,n-s,^-s,e-s
-
-"" For c file
-augroup FileTypeC
-  autocmd FileType c setlocal cindent
-  autocmd FileType c setlocal cino=f0,{1s,N-2s,(0,>2s,n-s,^-s,e-s
-augroup end
-
-augroup FileTypeCpp
-  autocmd FileType cpp setlocal cindent
-  autocmd FileType cpp setlocal cino=f0,{1s,N-2s,(0,>2s,n-s,^-s,e-s
-  autocmd FileType cpp nmap <F7> :call AddMagic()<CR>
-augroup end
-
-autocmd FileType cpp set suffixesadd=.h,.C,.cpp,.cc,.hh,.hpp,.c
-au BufRead,BufNewFile *.ari setlocal suffixesadd=_ent.vhd,_rtl.vhd,.vhd
-
-"" For ariadne file
-augroup ariadne_files
-  autocmd!
-  " Adding ariadne magic
-  autocmd FileType ari nnoremap <F7> :call AddMagicAri()
-augroup end
-
-"" For ruby file
-augroup ruby_files
-  autocmd!
-  " Comment out current line
-  autocmd FileType ruby nnoremap <LocalLeader>c 0i#<esc>
-augroup end
-
-"" For python file
-augroup python_files
-  autocmd!
-  " Indentation according to smart indenting rules
-  autocmd FileType python     setlocal smartindent
-  " Use a shift width of 4 (no braces so 2 shift levels)
-  autocmd FileType python     setlocal sw=4
-  " Comment out current line
-  autocmd FileType python nnoremap <LocalLeader>c 0i#<esc>
-  " Code snippet for if
-  autocmd FileType python :iabbrev <buffer> iff if:<left>
-augroup end
-
-"" For make file
-augroup make_files
-  autocmd!
-  " Set no expand tab
-  autocmd FileType make setlocal noet
-augroup end
-
-"" For lex file
-augroup lex_files
-  autocmd!
-  " Indentation according to smart indenting rules
-  autocmd FileType lex set smartindent
-augroup end
-
-"" For yacc file
-augroup yacc_files
-  autocmd!
-  " Indentation according to smart indenting rules
-  autocmd FileType yacc set smartindent
-augroup end
-
-"" Tex file
-augroup tex_files
-  autocmd!
-  " Compiler of tex file is tex
-  autocmd FileType tex compiler tex
-augroup end
-
-"" For perl file
-augroup perl_files
-  autocmd!
-  " Indentation according to C indenting rules
-  autocmd FileType perl       setlocal cindent
-  " Use a shift width of 2
-  autocmd FileType perl       setlocal sw=2
-augroup end
-" Set cindent options:
-" first opening brace on 0, opening { at 1 shift, no indent for namespace,
-" align with opened ( with no indent, normal indent is 2 shifts, 1 shift less
-" when no { in if etc, 1 shift less when inside { that started at 0,
-" when brace at end of line 1 shift less
-autocmd FileType perl       setlocal cino=f0,{1s,N-2s,(0,>2s,n-s,^-s,e-s
-
-"" For xpm file
-augroup xpm_files
-  autocmd!
-  " No wrapping at 80 characters
-  autocmd FileType xpm set nowrap
-augroup end
-
-"" For vimscript file   {{{
-augroup vim_files
-  autocmd!
-  autocmd FileType vim setlocal foldmethod=marker
-augroup end
-" }}}
-
-"" Fugitives
-augroup fugitives
-  autocmd!
-  " Auto-delete fugitive buffers
-  autocmd BufReadPost fugitive://* set bufhidden=delete
-  " Go to parent commit on git objects (.. is the key sequence)
-  autocmd User fugitive
-        \ if fugitive#buffer().type() =~# '^\%(tree\|blob\)$' |
-        \   nnoremap <buffer> .. :edit %:h<CR> |
-        \ endif
-augroup end
-
-" Vim -b : edit binary using xxd-format!
-augroup Binary
-  au!
-  au BufReadPre  *.bin let &bin=1
-  au BufReadPost *.bin if &bin | %!xxd
-  au BufReadPost *.bin set ft=xxd | endif
-  au BufWritePre *.bin if &bin | %!xxd -r
-  au BufWritePre *.bin endif
-  au BufWritePost *.bin if &bin | %!xxd
-  au BufWritePost *.bin set nomod | endif
-augroup END
-
-
-""" Set tags
-" Defines pathname of files containing tags
-function! SetVTags()
-  if $DESIGN_WORK_DIR != "" |
-    set tags=$DESIGN_WORK_DIR/vtags |
-  else |
-    set tags=./vtags |
+function! ExpandCurrentDir()
+  if ((getcmdtype() is# ':') && ((getcmdline() is# 'e ') || (getcmdline() is# 'vs ') || (getcmdline() is# 'sp '|| (getcmdline() is# 'tabnew '))))
+    return expand('%:p:h') . '/'
   endif
-endfunction
-
-augroup tags_setting
-  au!
-  au BufRead,BufNewFile *.vhd :call SetVTags()
-  au BufRead,BufNewFile *.vhdl :call SetVTags()
-  au BufRead,BufNewFile *.[chC] set tags=$DESIGN_WORK_DIR/ctags
-augroup end
-
-"" -- ctags --
-" map <ctrl>+F12 to generate ctags for current folder:
-noremap <C-F12> :!ctags -R --c++-kinds=+p --fields=+iaS --extra=+q .<CR>
-      \ :!cscope -R -b <CR> :cs reset <CR><CR>
-" add current directory's generated tags file to available tags
-set tags+=./tags
-
-
-""" Highlighting
-" Popup menu selected item: dark blue
-hi PmenuSel ctermbg=1
-" Popup menu scroll bar: dark red
-hi PmenuSbar ctermbg=4
-" Color column colors
-highlight ColorColumn ctermbg=235 guibg=#2c2d27
-highlight DiagnosticError guifg=bisque1
-highlight Pmenu guibg=darkgoldenrod
-
-set statusline=%<%{RelPath()}\ (%n)%h%m%r%{fugitive#statusline()}\ %=%-14.(%l,%c%V%)\ %P
-
-nmap <Leader>ff :Files<CR>
-nmap <Leader>fg :GFiles<CR>
-nmap <Leader>fb :Buffers<CR>
+  return '.'
+endfunc

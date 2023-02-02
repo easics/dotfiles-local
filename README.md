@@ -1,4 +1,4 @@
-Easics dotfiles (inspired by thoughbot dotfiles)
+Easics dotfiles (inspired by thoughtbot dotfiles)
 ===============
 
 Original version

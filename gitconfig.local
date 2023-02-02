@@ -1,9 +1,13 @@
 [user]
-  name = Karen Crabbe
-  email = karen@easics.be
-
+    name = Jasper Mertens
+    email = jasper@easics.be
+[alias]
+    ci = commit
+    st = status
+    glog = log --graph --oneline
+[core]
+    editor = vim
 [push]
   recurseSubmodules = check
-
-[core]
-  excludesfile = ~/.gitignore.local
+[pull]
+    rebase = false
