@@ -1,6 +1,6 @@
 [user]
-  name = Steven Coenen
-  email = steven@easics.be
+  name = Joost Verplancke
+  email = joost@easics.be
 
 [push]
   recurseSubmodules = check
