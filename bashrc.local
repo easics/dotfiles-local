@@ -12,3 +12,7 @@ cdproject() {
 cgr() {
   cd $(git root)
 }
+
+if [ -x ~/programs/bin ]; then
+  export PATH=~/programs/bin:$PATH
+fi
