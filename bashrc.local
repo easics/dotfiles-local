@@ -1,4 +1,13 @@
 
+smiley() {
+  retval=$?
+  if [ "$retval" = "0" ]; then
+    echo "🐈"
+  else
+    echo "😿 ($retval)"
+  fi
+}
+
 shopt -s direxpand
 
 cdtools() {
