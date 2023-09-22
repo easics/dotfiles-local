@@ -2,9 +2,9 @@
 smiley() {
   retval=$?
   if [ "$retval" = "0" ]; then
-    echo "🐈"
+    echo ":)"
   else
-    echo "😿 ($retval)"
+    echo ":( ($retval)"
   fi
 }
 
