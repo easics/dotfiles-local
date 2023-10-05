@@ -3,6 +3,16 @@
 #
 
 alias open=xdg-open
+alias inkscape=~/.local/bin/Inkscape-0a00cf5-x86_64.AppImage
+
+# Sometimes alias rm='rm -i' is set up, but this just leads to the
+# nasty habit of always using `rm -f`, which hides error messages.
+unalias rm
+
+Green="\033[0;32m"
+Blue="\033[1;34m"
+Normal="\033[0m"
+export PS1="\[$Blue\]\u@\h \[$Green\]\W \[$Normal\]> "
 
 #
 # # ex - archive extractor

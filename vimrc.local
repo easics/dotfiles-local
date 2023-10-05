@@ -5,8 +5,8 @@ source $VIMRUNTIME/defaults.vim
 set background=dark
 colorscheme desert
 highlight Folded cterm=bold ctermfg=2
-"set colorcolumn=81 "Highlight margin
-"highlight ColorColumn ctermbg=7
+highlight ColorColumn ctermbg=10 "Highlight margin in a non-intrusive color
+"set colorcolumn= "Don't highlight margin
 set hlsearch
 filetype on "for syntax highlighting based on filetype
 
@@ -14,9 +14,10 @@ filetype on "for syntax highlighting based on filetype
 set ignorecase
 set smartcase
 set number
-set wildmode=longest,list,full
+set wildmode=list:longest
 set virtualedit=block
 set autoread " Autoload file changes. You can undo by pressing u.
+set textwidth=0 " Do not insert newline automatically after a certain number of characters.
 
 "Indentation
 set expandtab "convert tabs to spaces
@@ -45,4 +46,4 @@ function! ExpandCurrentDir()
     return expand('%:p:h') . '/'
   endif
   return '.'
-endfunc
+endfunction
