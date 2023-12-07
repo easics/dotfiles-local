@@ -12,3 +12,32 @@ cdproject() {
 cgr() {
   cd $(git root)
 }
+
+__list_vsim_libraries() {
+  echo $(crudini --get $MODELSIM library | sed 's/$/./')
+}
+
+__list_vsim_primary_units() {
+  lib=$1
+  units=$(vdir -lib $lib | egrep '^(ENTITY|VHDL CONFIGURATION)' | \
+    sed 's/.* //;s/^/$lib./')
+  echo $units
+}
+
+complete_vsim() {
+  cword=$2
+  if [[ $cword = *"."* ]]; then
+    lib=${cword/.*/}
+    COMPREPLY=($(compgen -W "$(__list_vsim_primary_units $lib)" -- $cword))
+  else
+    libs=$(__list_vsim_libraries)
+
+    COMPREPLY=($(compgen -W "$libs" -- $2))
+  fi
+}
+
+sleep_until() {
+  sleep $(( $(date -f - +%s- <<< "$1"$'\nnow') 0 ))
+}
+
+complete -o default -o nospace -F complete_vsim vsim
