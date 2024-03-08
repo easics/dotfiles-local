@@ -14,7 +14,7 @@ filetype on "for syntax highlighting based on filetype
 set ignorecase
 set smartcase
 set number
-set wildmode=list:longest
+set wildmode=list:longest:full,full
 set virtualedit=block
 set autoread " Autoload file changes. You can undo by pressing u.
 set textwidth=0 " Do not insert newline automatically after a certain number of characters.
