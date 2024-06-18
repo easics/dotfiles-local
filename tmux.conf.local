@@ -2,12 +2,12 @@
 set -g prefix C-b
 
 # Get copying to clipboard to work
-# Taken from https://www.seanh.cc/2020/12/27/copy-and-paste-in-tmux/
+## Taken from https://www.seanh.cc/2020/12/27/copy-and-paste-in-tmux/
 set -g mouse on
 
-# These bindings are for X Windows only. If you're using a different
-# window system you have to replace the `xclip` commands with something
-# else. See https://github.com/tmux/tmux/wiki/Clipboard#available-tools
+## These bindings are for X Windows only. If you're using a different
+## window system you have to replace the `xclip` commands with something
+## else. See https://github.com/tmux/tmux/wiki/Clipboard#available-tools
 bind -T copy-mode    DoubleClick1Pane select-pane \; send -X select-word \; send -X copy-pipe-no-clear "xclip -i -sel clipboard"
 bind -T copy-mode-vi DoubleClick1Pane select-pane \; send -X select-word \; send -X copy-pipe-no-clear "xclip -i -sel clipboard"
 bind -n DoubleClick1Pane select-pane \; copy-mode -M \; send -X select-word \; send -X copy-pipe-no-clear "xclip -i -sel clipboard"
@@ -21,6 +21,9 @@ set -g @plugin 'tmux-plugins/tmux-yank'
 set -g @yank_action 'copy-pipe-no-clear'
 bind -T copy-mode    C-c send -X copy-pipe-no-clear "xclip -i -sel clipboard"
 bind -T copy-mode-vi C-c send -X copy-pipe-no-clear "xclip -i -sel clipboard"
+
+## Taken from https://github.com/tmux/tmux/wiki/Clipboard
+set -s copy-command 'xsel -i'
 
 # Initialize TMUX plugin manager (keep this line at the very bottom of
 # tmux.conf)

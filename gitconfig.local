@@ -8,6 +8,6 @@
 [core]
     editor = vim
 [push]
-  recurseSubmodules = check
+    recurseSubmodules = check
 [pull]
     rebase = false
