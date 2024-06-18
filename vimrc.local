@@ -6,6 +6,9 @@ set background=dark
 colorscheme desert
 highlight Folded cterm=bold ctermfg=2
 highlight ColorColumn ctermbg=10 "Highlight margin in a non-intrusive color
+highlight QuickFixLine ctermbg=black
+highlight SpellBad ctermfg=red ctermbg=black cterm=underline
+highlight SpellCap ctermfg=black
 "set colorcolumn= "Don't highlight margin
 set hlsearch
 filetype on "for syntax highlighting based on filetype
@@ -47,3 +50,46 @@ function! ExpandCurrentDir()
   endif
   return '.'
 endfunction
+
+"Language servers
+"" For debugging
+let lsp_log_verbose = 1
+let lsp_log_file = expand('~/vim-lsp.log')
+
+"" Register the language servers
+let verible_verilog_ls_path = expand(
+      \'~/.local/share/vim-lsp-settings/servers/
+      \verible-verilog-ls/verible-verilog-ls')
+
+if executable(verible_verilog_ls_path)
+    au User lsp_setup call lsp#register_server({
+        \ 'name': 'verible-verilog-ls',
+        \ 'cmd': {server_info->[g:verible_verilog_ls_path]},
+        \ 'allowlist': ['verilog', 'systemverilog'],
+        \ })
+endif
+
+function! s:on_lsp_buffer_enabled() abort
+    setlocal omnifunc=lsp#complete
+    setlocal signcolumn=yes
+    if exists('+tagfunc') | setlocal tagfunc=lsp#tagfunc | endif
+    nnoremap <buffer> <C-]> :LspDefinition<CR>
+    nnoremap <buffer> [d :LspPreviousDiagnostic<CR>
+    nnoremap <buffer> ]d :LspNextDiagnostic<CR>
+    nnoremap <buffer> <space>a :LspCodeAction<CR>
+    "Using <plug> does not work for some reason
+    nnoremap <buffer> <space>f :LspDocumentFormat<CR>
+    nnoremap <buffer> <space>r :LspReferences<CR>
+    nnoremap <buffer> <space>d :LspDocumentDiagnostics<CR>
+
+    let g:lsp_format_sync_timeout = 1000
+    autocmd! BufWritePre *.rs,*.go call execute('LspDocumentFormatSync')
+
+    " refer to doc to add more commands
+endfunction
+
+augroup lsp_install
+    au!
+    " call s:on_lsp_buffer_enabled only for languages that has the server registered.
+    autocmd User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
+augroup END

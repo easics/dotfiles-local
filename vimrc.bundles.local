@@ -1,0 +1,7 @@
+" Async Language Server Protocol for vim
+Plug 'prabirshrestha/vim-lsp'
+" Managing configurations for specific language servers
+Plug 'mattn/vim-lsp-settings'
+
+Plug 'prabirshrestha/asyncomplete.vim'
+Plug 'prabirshrestha/asyncomplete-lsp.vim'
