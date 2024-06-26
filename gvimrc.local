@@ -13,7 +13,7 @@ highlight Pmenu guibg=darkgreen
 highlight PmenuSel guibg=blue
 highlight ColorColumn ctermbg=235 guibg=#2c2d27
 
-set guifont=Deja\ Vu\ Sans\ Mono\ 11
+set guifont=Cousine\ Regular\ 14
 set guioptions-=T
 set guioptions-=m
 set guioptions-=L
