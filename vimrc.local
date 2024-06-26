@@ -384,6 +384,6 @@ highlight Pmenu guibg=darkgoldenrod
 
 set statusline=%<%{RelPath()}\ (%n)%h%m%r%{fugitive#statusline()}\ %=%-14.(%l,%c%V%)\ %P
 
-nmap <Leader>ff :Files<CR>
+nmap <Leader>ff :GRFiles<CR>
 nmap <Leader>fg :GFiles<CR>
 nmap <Leader>fb :Buffers<CR>
