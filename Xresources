@@ -1,2 +1,4 @@
 XTerm*faceName: Liberation Mono
 XTerm*faceSize: 16
+Xft.dpi: 105
+*TkTheme: alt
