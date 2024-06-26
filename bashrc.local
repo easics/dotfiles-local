@@ -8,8 +8,6 @@ smiley() {
   fi
 }
 
-shopt -s direxpand
-
 cdtools() {
   cd ~/src/git/easics/tools/$1
 }
