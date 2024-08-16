@@ -1,18 +1,2 @@
 
 shopt -s direxpand
-
-cdtools() {
-  cd ~/src/git/easics/tools/$1
-}
-
-cdproject() {
-  cd ~/src/git/$1/$2
-}
-
-cgr() {
-  cd $(git root)
-}
-
-if [ -x ~/programs/bin ]; then
-  export PATH=~/programs/bin:$PATH
-fi
