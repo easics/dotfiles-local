@@ -24,10 +24,10 @@ exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork --color 0
 
 bindsym Control+$mod+l exec i3lock --nofork --color 000000
 
-#exec xautolock -detectsleep -time 10 -locker i3lock \
-#  --color 000000 \
-#  -notify 30 \
-#  -notifier "notify-send 'Screen will lock in 30s.'"
+exec xautolock -detectsleep -time 10 -locker i3lock \
+  --color 000000 \
+  -notify 30 \
+  -notifier "notify-send 'Screen will lock in 30s.'"
 
 # NetworkManager is the most popular way to manage wireless networks on Linux,
 # and nm-applet is a desktop environment-independent system tray GUI for it.
@@ -113,7 +113,7 @@ bindsym $mod+z focus child
 
 # Define names for default workspaces for which we configure key bindings later on.
 # We use variables to avoid repeating the names in multiple places.
-set $ws1 "1: waves"
+set $ws1 "1: EDA"
 set $ws2 "2: src"
 set $ws3 "3: www"
 set $ws4 "4: doc"
@@ -124,7 +124,7 @@ set $ws8 "8"
 set $ws9 "9"
 set $ws10 "0: calc"
 # Define aliases for named workspaces (variables are not expanded recursively)
-set $ws_waves "1: waves"
+set $ws_eda   "1: EDA"
 set $ws_src   "2: src"
 set $ws_www   "3: www"
 set $ws_doc   "4: doc"
@@ -166,17 +166,22 @@ bindsym $mod+Shift+0 move container to workspace number $ws10; \
 workspace number $ws10
 
 # Map named workspaces to a specific window
-workspace $ws_waves output DP-1
-workspace $ws_src   output HDMI-3
-workspace $ws_www   output DP-1
-workspace $ws_doc   output DP-1
-workspace $ws_src2  output DP-1
-workspace $ws_calc  output HDMI-3
+workspace $ws_eda   output HDMI-1
+workspace $ws_src   output DP-1
+workspace $ws_www   output HDMI-1
+workspace $ws_doc   output HDMI-1
+workspace $ws_src2  output HDMI-1
+workspace $ws_calc  output DP-1
 
 # Assign specific programs to named workspaces
-## simvision
-assign [class="^Vsim$"] number $ws_waves
-assign [class="^WindowObj$" instance="^wave"] number $ws_waves
+## EDA GUIs
+### QuestaSim
+assign [class="^Vsim$"] number $ws_eda
+assign [class="^WindowObj$" instance="^wave"] number $ws_eda
+### Xcelium
+assign [title="SimVision$"] number $ws_eda
+### Vivado
+assign [title="Vivado"] number $ws_eda
 
 ## internet browsers
 assign [class="^firefox$"] number $ws_www
@@ -224,8 +229,9 @@ focus_follows_mouse no
 # When changing focus with arrow keys, wrap around within the current workspace.
 focus_wrapping workspace
 
-# Always focus a newly opened window
-for_window [urgent=latest] focus
+# Google Chat pop-up windows floating (so they are not fullscreen)
+for_window [instance="^Alert$" class="^firefox$" window_role="alert"] \
+floating enable
 
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
