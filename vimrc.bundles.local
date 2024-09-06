@@ -32,7 +32,5 @@ nmap ga <Plug>(EasyAlign)
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 
-Plug 'git@gitlab:dotfiles/bundles/addmagic.git'
-
 " TODO: test & add to gitlab
 " vigasi
