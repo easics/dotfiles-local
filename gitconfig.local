@@ -1,6 +1,6 @@
 [user]
-  name = Karen Crabbe
-  email = karen@easics.be
+  name = UnknownName UpdateInGitconfigLocal
+  email = Unknown@keysight.com
 
 [push]
   recurseSubmodules = check
