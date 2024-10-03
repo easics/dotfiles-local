@@ -41,3 +41,6 @@ sleep_until() {
 }
 
 complete -o default -o nospace -F complete_vsim vsim
+
+export PATH=$PATH:/asic_tools/bin:/asic_tools/scripts
+export DPSH_USE_BASHRC=1
