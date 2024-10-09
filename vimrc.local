@@ -21,6 +21,7 @@ set wildmode=list:longest:full,full
 set virtualedit=all
 set autoread " Autoload file changes. You can undo by pressing u.
 set textwidth=0 " Do not insert newline automatically after a certain number of characters.
+set nrformats=bin,hex " Do not try to interpret octal numbers.
 
 "Indentation
 set expandtab "convert tabs to spaces
@@ -38,7 +39,6 @@ set autoindent
 "Mappings
 nnoremap <F5> :lcd %:p:h <CR>
 nnoremap <C-l> :nohlsearch <CR> <C-l>
-nnoremap <F8> :TagbarToggle<CR>
 "" Fold all matches of a currently searched pattern
 "" Undo with zR
 nnoremap \z :setlocal foldexpr=(getline(v:lnum)=~@/)?0:(getline(v:lnum-1)=~@/)\\|\\|(getline(v:lnum+1)=~@/)?1:2 foldmethod=expr foldlevel=0 foldcolumn=2<CR>
@@ -83,11 +83,11 @@ function! s:on_lsp_buffer_enabled() abort
     nnoremap <buffer> <C-]> :LspDefinition<CR>
     nnoremap <buffer> [d :LspPreviousDiagnostic<CR>
     nnoremap <buffer> ]d :LspNextDiagnostic<CR>
-    nnoremap <buffer> <space>a :LspCodeAction<CR>
+    nnoremap <buffer> <Space>a :LspCodeAction<CR>
     "Using <plug> does not work for some reason
-    nnoremap <buffer> <space>f :LspDocumentFormat<CR>
-    nnoremap <buffer> <space>r :LspReferences<CR>
-    nnoremap <buffer> <space>d :LspDocumentDiagnostics<CR>
+    nnoremap <buffer> <Space>f :LspDocumentFormat<CR>
+    nnoremap <buffer> <Space>r :LspReferences<CR>
+    nnoremap <buffer> <Space>d :LspDocumentDiagnostics<CR>
 
     let g:lsp_format_sync_timeout = 1000
     autocmd! BufWritePre *.rs,*.go call execute('LspDocumentFormatSync')

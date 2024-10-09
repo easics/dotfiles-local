@@ -1,3 +1,3 @@
 EXCLUDES="README*.md LICENSE"
-DOTFILES_DIRS="$HOME/projects/internal/dotfiles/dotfiles-local $HOME/projects/internal/dotfiles/dotfiles-easics"
+DOTFILES_DIRS="$HOME/projects/external/dotfiles/dotfiles-local $HOME/projects/external/dotfiles/dotfiles-easics"
 COPY_ALWAYS="git_template/HEAD"

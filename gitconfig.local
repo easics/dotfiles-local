@@ -11,3 +11,17 @@
     recurseSubmodules = check
 [pull]
     rebase = false
+[diff]
+    tool = vimdiff
+    guitool = intellij
+[difftool "intellij"]
+    cmd = pycharm diff $(realpath "$LOCAL") $(realpath "$REMOTE")
+    trustExitCode = true
+    keepBackup = false
+[merge]
+    tool = vimdiff
+    guitool = intellij
+[mergetool "intellij"]
+    cmd = pycharm merge $(realpath "$LOCAL") $(realpath "$REMOTE") $(realpath "$BASE") $(realpath "$MERGED")
+    trustExitCode = true
+    keepBackup = false
