@@ -4,7 +4,7 @@
 [alias]
     ci = commit
     st = status
-    glog = log --graph --oneline
+    glog = log --graph --pretty=tformat:'%C(auto)%h%d %C(dim magenta)(%cs - <%aN>)%Creset %s'
 [core]
     editor = vim
 [push]
