@@ -24,4 +24,5 @@
 [mergetool "intellij"]
     cmd = pycharm merge $(realpath "$LOCAL") $(realpath "$REMOTE") $(realpath "$BASE") $(realpath "$MERGED")
     trustExitCode = true
+[mergetool]
     keepBackup = false

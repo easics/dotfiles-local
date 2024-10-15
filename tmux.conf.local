@@ -20,14 +20,24 @@ set -g prefix C-b
 set -g mouse on
 
 if-shell 'printf "tmux 3.2\n%s" "$(tmux -V)" | sort -V -C' {
-    # Starting from version 3.2 copy-command is supported
-    if-shell "[ $(uname) == Darwin ]" {
-        # macOs
-        set -s copy-command pbcopy
-    } {
-        # Linux
-        set -s copy-command 'xsel -i'
-    }
+  # Starting from version 3.2 copy-command is supported
+  if-shell "[ $(uname) == Darwin ]" {
+      # macOs
+      set -s copy-command pbcopy
+  } {
+      # Linux
+      set -s copy-command 'xsel -i'
+  }
 } {
   display-message "Upgrade your tmux version to 3.2 or above to support clipboard usage."
+}
+
+# Get SSH agent forwarding to work.
+## See https://blog.mcpolemic.com/2016/10/01/reconciling-tmux-and-ssh-agent-forwarding.html
+if-shell '[ -f $HOME/.ssh/ssh_auth_sock ]' {
+  #  Remove SSH_AUTH_SOCK to disable auto-resetting of Tmux variable
+  set -g update-environment "DISPLAY SSH_ASKPASS SSH_AGENT_PID \
+                            SSH_CONNECTION WINDOWID XAUTHORITY"
+  #  Use a symlink to look up SSH authentication
+  setenv -g SSH_AUTH_SOCK $HOME/.ssh/ssh_auth_sock
 }

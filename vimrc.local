@@ -56,8 +56,8 @@ endfunction
 
 "Language servers
 "" For debugging
-let lsp_log_verbose = 1
-let lsp_log_file = expand('~/vim-lsp.log')
+"let lsp_log_verbose = 1
+"let lsp_log_file = expand('~/vim-lsp.log')
 
 "" Register the language servers
 let verible_verilog_ls_path = expand(
@@ -70,7 +70,7 @@ if executable(verible_verilog_ls_path)
         \ 'cmd': {server_info->[
             \ g:verible_verilog_ls_path,
             \ '--rules_config',
-            \ '/home/jasper/.rules.verible_lint'
+            \ '/users/jaspmert/.rules.verible_lint'
             \ ]},
         \ 'allowlist': ['verilog', 'systemverilog'],
         \ })
