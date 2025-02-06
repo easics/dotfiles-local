@@ -6,6 +6,9 @@
 # nasty habit of always using `rm -f`, which hides error messages.
 [[ $(type -t rm) == "alias" ]] && unalias rm
 
+# To prevent an extra accidental Ctrl-D from closing the terminal.
+set -o ignoreeof
+
 Green="\033[0;32m"
 Blue="\033[1;34m"
 Normal="\033[0m"
@@ -35,3 +38,5 @@ ex ()
     echo "'$1' is not a valid file"
   fi
 }
+
+[ -f ~/.bash_completion ] && . ~/.bash_completion
