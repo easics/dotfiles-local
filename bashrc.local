@@ -42,5 +42,48 @@ sleep_until() {
 
 complete -o default -o nospace -F complete_vsim vsim
 
-export PATH=$PATH:/asic_tools/bin:/asic_tools/scripts
-export DPSH_USE_BASHRC=1
+#export PATH=$PATH:/asic_tools/bin:/asic_tools/scripts
+#export DPSH_USE_BASHRC=1
+
+# dpsh completion
+__dpsh_project_names() {
+    if [ -f $HOME/.dpsh_paths ]; then
+        COMPREPLY=( $( compgen -W "$(cut -sf1 -d' ' $HOME/.dpsh_paths)" -- $cur ) )
+    fi
+} &&
+_dpsh()
+{
+    local cur prev words cword
+    _init_completion || return
+
+    case $prev in
+        -w|--name)
+            __dpsh_project_names
+            return
+            ;;
+        -p|--path)
+            _filedir -d
+            return
+            ;;
+        -u|--user)
+            _usergroup -u
+            return
+            ;;
+    esac
+
+
+    if [[ $cur == -* ]]; then
+        # complete options: custom grep magic because of the non-standard -help output of dpsh 
+        # Would have been nicer: local help='$( _parse_help "$1" "-h")'
+        # Also note the grep does not find -h and -help as they are not listed in the help
+        local opts="$(dpsh -help | grep -e '^\W*-[-a-zA-Z]\+' | grep -e '\B-[-a-zA-Z]\+' -o) -h -help"
+        COMPREPLY=( $( compgen -W "$opts" -- "$cur" ) )
+        return
+    fi
+
+    __dpsh_project_names
+    return
+} && 
+complete -F _dpsh dpsh
+
+export MANPAGER="sh -c 'sed -u -e \"s/\\x1B\[[0-9;]*m//g; s/.\\x08//g\" | bat -p -lman'"
