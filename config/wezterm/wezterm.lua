@@ -45,13 +45,17 @@ end
 config.keys = {
     bind_if(is_outside_vim, "h", "CTRL", a.ActivatePaneDirection("Left")),
     bind_if(is_outside_vim, "l", "CTRL", a.ActivatePaneDirection("Right")),
+  { key = 'r', mods = 'CTRL|SHIFT', action = a.RotatePanes 'Clockwise' },
 }
 
 -- Nicer font
 config.font = w.font("JetBrainsMono Nerd Font")
+config.font_size = 15
 
 -- Try to reduce CPU usage
 config.animation_fps = 1
 config.cursor_blink_rate = 1000
+
+config.scrollback_lines = 500000
 
 return config
