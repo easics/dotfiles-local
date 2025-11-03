@@ -2,6 +2,9 @@
 # ~/.bashrc
 #
 
+# A better experience for python breakpoint debugging.
+which pudb &> /dev/null && export PYTHONBREAKPOINT="pudb.set_trace"
+
 # Sometimes alias rm='rm -i' is set up, but this just leads to the
 # nasty habit of always using `rm -f`, which hides error messages.
 [[ $(type -t rm) == "alias" ]] && unalias rm
@@ -9,10 +12,29 @@
 # To prevent an extra accidental Ctrl-D from closing the terminal.
 set -o ignoreeof
 
+# This prevents that reusing previous commands removes the duplicates in `history`.
+unset HISTCONTROL
+
+# To update SSH_AGENT environment variables in tmux
+# after an SSH connection was dropped and re-initialized.
+# See: https://blog.mcpolemic.com/2016/10/01/reconciling-tmux-and-ssh-agent-forwarding.html
+alias ssh_agent_update='eval $(tmux show-env -s | grep "^SSH_")'
+
+alias cdw='cd $DIGROOT'
+alias pdw='pushd $DIGROOT'
 Green="\033[0;32m"
+Yellow="\033[0;33m"
 Blue="\033[1;34m"
 Normal="\033[0m"
-export PS1="\[$Blue\]\u@\h:\[$Green\]\W \[$Normal\]$ "
+
+function git_info {
+  if [ "$(git rev-parse --is-inside-work-tree 2>/dev/null)" = "true" ]
+  then
+    echo -e "($(basename `git rev-parse --show-toplevel`) |$(git branch --show-current)|) "
+  fi
+}
+
+export PS1="\[$Blue\]\u@\h: \[$Yellow\]\$(git_info)\[$Green\]\W\[$Normal\]\n$ "
 
 #
 # # ex - archive extractor
