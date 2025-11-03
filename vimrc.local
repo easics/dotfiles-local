@@ -22,30 +22,129 @@ set virtualedit=all
 set autoread " Autoload file changes. You can undo by pressing u.
 set textwidth=0 " Do not insert newline automatically after a certain number of characters.
 set nrformats=bin,hex " Do not try to interpret octal numbers.
+set mouse=n " Allows to select text like other terminal text in visual mode.
+
+" Fold autojinja statements for VHDL files
+ " The start/end marker cannot include a space.
+ " We cannot have '--@' as start marker as a one-liner such as:
+ "  --@ {! .... !}
+ " would cause all code up until the next auto-jinja block to be folded.
+ " A custom vhdl syntax file, with defined regions for autojinja blocks would fix this.
+autocmd FileType vhdl setlocal foldmethod=marker foldmarker={%,--@@
+
+" Override :B to use fzf's :Buffers
+command! -bang -nargs=* B call fzf#vim#buffers({'options': '--layout=reverse'}, <bang>0)
+
+" In quickfix window, press 'p' to preview the selected entry
+autocmd FileType qf nnoremap <buffer> p :pedit <cfile><CR>
+
+" Save the cursor position when leaving a buffer
+autocmd BufLeave * silent! mkview
+
+" Restore the cursor position when entering a buffer
+autocmd BufReadPost *
+    \ if line("'\"") > 0 && line("'\"") <= line("$") |
+    \   silent! loadview |
+    \ endif
+
+" Define a function to toggle paste mode
+function! TogglePasteMode()
+    if &paste
+        set nopaste
+        echo "Paste mode disabled"
+    else
+        set paste
+        echo "Paste mode enabled"
+    endif
+endfunction
+
+" Map CMD + V to toggle paste mode, paste, and then toggle paste mode off
+" <D> (= Command ⌘) Does not work in terminal Vim as the command key is not passed through to the terminal.
+" This results in the annoying behaviour of '<' being mapped and having a delayed effect
+" because vim waits for the next key in the mapped sequence.
+"nmap <D-v> :call TogglePasteMode()<CR>"+gP:call TogglePasteMode()<CR>
+"imap <D-v> <C-o>:call TogglePasteMode()<CR><C-r>+<C-o>:call TogglePasteMode()<CR>
+"vmap <D-v> :call TogglePasteMode()<CR>"+gP:call TogglePasteMode()<CR>
+
+" Copy to clipboard
+vnoremap <C-c> :w !it2copy<CR><CR>
 
 "Indentation
 set expandtab "convert tabs to spaces
-set tabstop=4 "4 spaces for a tab
+set tabstop=2 "2 spaces for a tab
 set shiftwidth=2 "indent 2 spaces
 
-"Show tabs and trailing spaces
+"Show tabs, trailing spaces and non-breaking spaces
 set list
-set listchars=tab:>»,trail:·
+set listchars=tab:>»,trail:·,nbsp:⦸
 
 filetype indent on
 set autoindent
 "set smartindent "requires autoindent
 
-"Mappings
-nnoremap <F5> :lcd %:p:h <CR>
-nnoremap <C-l> :nohlsearch <CR> <C-l>
-"" Fold all matches of a currently searched pattern with \z
-"" Undo with \Z
-nnoremap \z :setlocal foldexpr=(getline(v:lnum)=~@/)?0:(getline(v:lnum-1)=~@/)\\|\\|(getline(v:lnum+1)=~@/)?1:2 foldmethod=expr foldlevel=0 foldcolumn=2<CR>
-nnoremap \Z :setlocal foldmethod=manual<CR> :e<CR>
 
-"Prepend path to directory of current file
-"after entering ':e .', ':vs .', ':sp .' or ':tabnew .'
+" Custom Commands
+" ===============
+
+" Close all tabs to the right of the current tab
+function! s:TabCloseRight() abort
+  let curtab = tabpagenr()
+  let lasttab = tabpagenr('$')
+  " Close from the rightmost down to one past the current tab
+  for i in range(lasttab, curtab + 1, -1)
+    execute 'tabclose ' . i
+  endfor
+endfunction
+command! TabCloseRight call s:TabCloseRight()
+
+
+" Define a command to populate the quickfix list with search results.
+" Usage: :Find EXTENSION PATTERN
+" Example: `:Find py def` will search for `def` in all `*.py` files.
+
+function! s:Find(extension, pattern)
+  let l:cmd = 'find . \( -path "*/.git" \) -prune -o -name "*' . a:extension . '" -exec grep -n ' . shellescape(a:pattern) . ' {} +'
+  let l:output = systemlist(l:cmd)
+  call setqflist([], 'r', {'lines': l:output, 'title': 'Find results'})
+  copen
+endfunction
+command! -nargs=+ Find call s:Find(<f-args>)
+
+
+" Mappings
+" ========
+
+" Undo previous remappings of the default vim <Leader> key.
+"" A dummy mapping so the unmap does not complain.
+"noremap \ l
+"unmap \
+
+" Change directory to the directory of the current file.
+nnoremap <F5> :lcd %:p:h <CR>
+
+" Highlight all words matching the current word under the cursor.
+" (Without moving to the next match.)
+nnoremap <C-h> :let @/='\<<C-R>=expand("<cword>")<CR>\>'<CR>:set hlsearch<CR>
+
+" Remove the search matches highlighting.
+nnoremap <C-l> :nohlsearch <CR>
+
+" Fold all matches of a currently searched pattern with \z
+" Undo with \Z
+nnoremap <Leader>z :setlocal foldexpr=(getline(v:lnum)=~@/)?0:(getline(v:lnum-1)=~@/)\\|\\|(getline(v:lnum+1)=~@/)?1:2 foldmethod=expr foldlevel=0 foldcolumn=2<CR>
+
+" TODO: for some reason, the foldmethod is 'expr' again after reopening the file.
+nnoremap <Leader>Z :setlocal foldmethod=manual<CR> :e<CR>
+
+" Delete buffer, but keep window pane.
+nnoremap <Leader>q :Bdelete<CR>
+
+" Move the current window to a new tab.
+" Only intended use is when multiple windows are open in the current tab.
+nnoremap <Leader>t <Cmd>tab split <Bar> tabprevious <Bar> close <Bar> tabnext<CR>
+
+" Prepend path to directory of current file
+" after entering ':e .', ':vs .', ':sp .' or ':tabnew .'
 cnoremap <expr> . ExpandCurrentDir()
 
 function! ExpandCurrentDir()
@@ -55,34 +154,26 @@ function! ExpandCurrentDir()
   return '.'
 endfunction
 
-"Language servers
+" When explicitly copying (with `y`), also copy to the named register 'a'.
+" This way a deletion (`x`, `d`) only overwrites the default register '"'
+" and you can still paste from the register 'a' with `"ap`.
+nnoremap <silent> Y "ayy
+nnoremap <silent> yy "ayy
+xnoremap <silent> y "ay
+nnoremap <silent> yiw "ayiw
+
+nnoremap <F12> :TagbarToggle<CR>
+
+" Language servers
+" ================
+
 "" For debugging
 "let lsp_log_verbose = 1
 "let lsp_log_file = expand('~/vim-lsp.log')
 
-"" Register the language servers
-let verible_verilog_ls_path = expand(
-      \'~/.local/share/vim-lsp-settings/servers/
-      \verible-verilog-ls/verible-verilog-ls')
-
-"TODO: merge to settings.json with :LspSettingsGlobalEdit
-if executable(verible_verilog_ls_path)
-    au User lsp_setup call lsp#register_server({
-        \ 'name': 'verible-verilog-ls',
-        \ 'cmd': {server_info->[
-            \ g:verible_verilog_ls_path,
-            \ '--rules_config',
-            \ '/users/jaspmert/.rules.verible_lint',
-            \ '--named_port_alignment',
-            \ 'preserve'
-            \ ]},
-        \ 'allowlist': ['verilog', 'systemverilog'],
-        \ })
-endif
-
 "" Specify the ones that you want to use,
 "" in case multiple possible are registered.
-let g:lsp_settings_filetype_python = ['pylsp', 'ruff']
+let g:lsp_settings_filetype_python = ['pyright-langserver', 'ruff']
 
 function! s:on_lsp_buffer_enabled() abort
     setlocal omnifunc=lsp#complete
@@ -95,7 +186,10 @@ function! s:on_lsp_buffer_enabled() abort
     "Using <plug> does not work for some reason
     nnoremap <buffer> <Space>f :LspDocumentFormat<CR>
     nnoremap <buffer> <Space>r :LspReferences<CR>
+    nnoremap <buffer> <Space>c :LspRename<CR>
     nnoremap <buffer> <Space>d :LspDocumentDiagnostics<CR>
+    nnoremap <buffer> <Space>e :call lsp#enable_diagnostics_for_buffer()<CR>
+    nnoremap <buffer> <Space>E :call lsp#disable_diagnostics_for_buffer()<CR>
 
     let g:lsp_format_sync_timeout = 1000
     autocmd! BufWritePre *.rs,*.go call execute('LspDocumentFormatSync')
