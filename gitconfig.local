@@ -1,16 +1,26 @@
 [user]
     name = Jasper Mertens
-    email = jasper@easics.be
+    email = jasper.mertens@keysight.com
 [alias]
     ci = commit
     st = status
     glog = log --graph --pretty=tformat:'%C(auto)%h%d %C(dim magenta)(%cs - <%aN>)%Creset %s'
+    near = "!~/.config/git/hooks/nearest_branches.sh"
 [core]
     editor = vim
 [push]
+    # Check that the submodule references are available at the remote before pushing a commit that contains these references.
     recurseSubmodules = check
+[submodule]
+# This takes too long to fetch all the submodules. TODO: use a git hook to do git submodule update after git pull.
+#    # Fetch and update the submodules automatically after doing `git pull`.
+#    recurse = true
 [pull]
     rebase = false
+[rebase]
+  # This makes the `git rebase -i` edit screen a little more complicated,
+  # but allows you to control the rebasing of merge commits.
+  rebaseMerges = true
 [diff]
     tool = vimdiff
     guitool = intellij
@@ -26,3 +36,6 @@
     trustExitCode = true
 [mergetool]
     keepBackup = false
+[column]
+    # List branches in columns
+    ui = auto
